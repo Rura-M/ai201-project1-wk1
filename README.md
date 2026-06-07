@@ -1,10 +1,4 @@
 # The Unofficial Guide — Project 1: HSA RAG SYSTEM
-
-> **How to use this template:**
-> Complete each section *after* you've built and tested the corresponding part of your system.
-> Do not write placeholder text — if a section isn't done yet, leave it blank and come back.
-> Every section below is required for submission. One-liners will not receive full credit.
-
 ---
 
 ## Domain
@@ -42,12 +36,11 @@ This domain is a beginner’s guide to using Health Savings Accounts (HSAs) that
 Chunks will usually contain one article section or a small group of closely related paragraphs. If a cleaned section is longer than 2,000 characters, it will be split into smaller chunks of about 2,000 characters.
 
 **Overlap:**
-I will use about 300 characters of overlap when splitting long sections so important context is not lost between adjacent chunks.
+I will use about 300 characters of overlap when splitting long sections. This ensures that important context is not lost between adjacent chunks. 
 
-**Why these choices fit your documents:**
-The sources are mostly structured web pages with headings, FAQs, and article sections. Splitting by headings, paragraphs, and sentence boundaries preserves the meaning of each section and makes it easier for retrieval to find focused explanations about eligibility, tax benefits, qualified expenses, and non-qualified withdrawals. The 2,000-character size is large enough to keep a full explanation together, while the 300-character overlap helps preserve context when a long section has to be split.
-**Final chunk count:**
-142 chunks were created
+**Why these choices fit your documents:** The sources are mostly structured web pages with headings, FAQs, and article sections. Splitting by headings, paragraphs, and sentence boundaries preserves the meaning of each section and makes it easier for retrieval to find focused explanations about eligibility, tax benefits, qualified expenses, and non-qualified withdrawals. The 2,000-character size is large enough to keep a full explanation together, while the 300-character overlap helps preserve context when a long section has to be split.
+
+**Final chunk count:** 142 chunks were created
 ---
 
 ## Embedding Model
@@ -62,7 +55,9 @@ The sources are mostly structured web pages with headings, FAQs, and article sec
 I will use all-MiniLM-L6-v2 through the sentence-transformers library. This model is lightweight, fast, and commonly used for simple RAG systems and works because the corpus is small and made up of structured web pages about one focused topic.
 
 **Production tradeoff reflection:**
-If this system were being deployed for real users and cost was not a constraint, I would consider using a more accurate embedding model with stronger semantic understanding and a larger context length. I would weigh tradeoffs such as retrieval accuracy, latency, multilingual support, and how well the model understands HSA-related terminology. A larger or more domain-specific model may improve answer quality, but it could also increase cost and slow down retrieval. 
+
+If this system were being deployed for real users and cost was not a constraint, I would consider using a more accurate embedding model with stronger semantic understanding and a larger context length. I would weigh tradeoffs such as retrieval accuracy, latency, multilingual support, and how well the model understands HSA-related terminology. A larger or more domain-specific model may improve answer quality, but it could also increase cost and slow down retrieval.
+
 ---
 
 ## Grounded Generation
@@ -76,7 +71,7 @@ If this system were being deployed for real users and cost was not a constraint,
 
 **System prompt grounding instruction:**
 
-The system prompt explicitly instructs the model:
+The system prompt gives these instructions to the model:
 - Answer only using the retrieved context provided by the system.
 - Do not use outside knowledge, even if you think you know the answer.
 - If the context does not contain enough information to answer, say exactly: "I don't have enough information on that."
@@ -142,9 +137,13 @@ The data ources are displayed in a separate "Retrieved from" section listing eac
 <!-- Reflect on how planning.md shaped your implementation.
      Answer both questions with at least 2–3 sentences each. -->
 
-**One way the spec helped you during implementation:** It simplifies my implementation. It also served as a reference for some of the choices I made e.g which top k to use. Finally, it helped me remain on a focused goal of ensuring that my RAG is focused on HSA systems.
+**One way the spec helped you during implementation:**
 
-**One way your implementation diverged from the spec, and why:** I had to change the Top K size to improve responses. Originally, I was using 2 and it gave partially correct response. Thus, increasing it to 4 gave more accurate responses.
+It simplified my implementation and served as a reference for key design choices like which top-k value to use. The spec helped me remain focused on the goal of building a RAG system specifically for HSA information, rather than expanding into related topics. Having the Chunking Strategy and Retrieval Approach sections clearly defined meant I didn't have to second-guess architectural decisions during development.
+
+**One way your implementation diverged from the spec, and why:**
+
+I had to increase the top-k value from 2 to 4 during implementation to improve response accuracy. Initially using top-k=2 resulted in partially correct responses because important context was being missed. Increasing to top-k=4 provided better coverage of related HSA details and significantly improved answer accuracy without adding too much irrelevant information.
 
 ---
 
