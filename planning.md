@@ -9,83 +9,76 @@
 
 ## Domain
 
-This domain is a beginner’s guide to Health Savings Accounts (HSAs) that explains how to save, spend, and grow your money tax-free. This information is hard to find because official documents are usually full of confusing legal jargon that doesn't answer basic, real-world questions. By using sources like Reddit and personal blogs, this guide provides the simple, "human" explanations and reassurance that official bank websites often ignore.
+This domain is a beginner’s guide to Health Savings Accounts (HSAs) that explains how to save, spend, and grow money tax-free for qualified medical expenses. This information is hard to understand because official documents can be full of legal and tax language, while provider pages often focus on their own products. By using official government sources and educational finance websites, this guide provides clearer explanations of HSA rules, benefits, spending, eligibility, and account management.
 
 ---
 
 ## Documents
 
-<!-- List your specific sources: URLs, subreddit names, forum threads, or file descriptions.
+<!-- List your specific sources: URLs, website names, article titles, or file descriptions.
      Aim for at least 10 sources that together cover different subtopics or perspectives within your domain. -->
 
 | # | Source | Description | URL or location |
 |---|--------|-------------|-----------------|
-| 1 | Reddit| This informs the user of what HSA accounts are | https://www.reddit.com/r/personalfinance/comments/1tn70nh/hsa_explained_for_dummies/ |
-| 2 | Investopedia| This describes HSA terms and gives a basic introduction|  https://www.investopedia.com/terms/h/hsa.asp |
-| 3 | Reddit | This further gives more details on how HSA  works | http://reddit.com/r/explainlikeimfive/comments/1opcu1s/eli5how_do_hsas_work_they_seem_too_good_to_be_true/|
-| 4 | Reddit| This explains how HSA works | https://www.reddit.com/r/FinancialPlanning/comments/17mv9nz/how_do_hsa_and_fsa_work/|
-| 5 | Reddit| This exaplains how to use funds in the HSA account| https://www.reddit.com/r/personalfinance/comments/1t6q205/should_you_use_your_hsa_money/|
-| 6 | Reddit| This exaplains whether the user can spend HSA funds on non-medial issues| https://www.reddit.com/r/fidelityinvestments/comments/1myepym/should_i_actually_be_using_hsa_for_health/|
-| 7 | Reddit | Exaplains what happens to your HDHP when you no longer need it | https://www.reddit.com/r/personalfinance/comments/1nq9h30/what_happens_with_your_invested_hsa_funds_when/ |
-| 8 | Reddit| Discusses what happens when you ises HSA for non-medical issues | https://www.reddit.com/r/personalfinance/comments/1mk0z2l/accidentally_used_hsa_on_non_medical_items/|
-| 9 | Reddit | Exaplains what happens when users exceed their contributions to the HSA aaccounts | https://www.reddit.com/r/tax/comments/1q1mh67/hsa_excess_contribution_what_do/|
-| 10 | Reddit| Discuss HSA investment strategy | https://www.reddit.com/r/personalfinance/comments/1q7vs35/hsa_investment_strategy/| 
+| 1 | Investopedia| This describes HSA terms and gives a basic introduction| https://www.investopedia.com/terms/h/hsa.asp |
+| 2 | IRS| This explains official HSA rules, eligibility, contribution limits, and tax treatment | https://www.irs.gov/publications/p969 |
+| 3 | HealthCare.gov | This explains HSA-eligible health plans and how HSAs work with HDHP coverage | https://www.healthcare.gov/high-deductible-health-plan/hdhp-hsa-information/|
+| 4 | Fidelity| This explains how to spend money from an HSA on qualified medical expenses | https://www.fidelity.com/learning-center/personal-finance/spending-from-hsa|
+| 5 | Fidelity| This explains what to look for when choosing an HSA account provider| https://www.fidelity.com/learning-center/personal-finance/hsa-what-to-look-for|
+| 6 | Fidelity| This explains how to open an HSA and who may be eligible| https://www.fidelity.com/learning-center/personal-finance/how-to-open-an-HSA|
+| 7 | Optum Bank | This gives a beginner-friendly overview of HSA benefits, contributions, and tax savings | https://www.optumbank.com/resources/library/money-management-hsa.html |
+| 8 | Optum Bank| This explains how to manage an HSA, make deposits, use funds, and handle transfers | https://www.optumbank.com/health-savings-accounts/resources/managing-hsa.html|
+| 9 | HSA Bank | This lists common IRS-qualified medical expenses for HSAs, FSAs, and HRAs | https://www.hsabank.com/HSABank/Learning-Center/IRS-qualified-medical-expenses|
+| 10 | HSA Bank| This answers common member questions about HSAs, FSAs, HRAs, reimbursements, and rollovers | https://www.hsabank.com/Members/Members-FAQs.html| 
 
 ---
 ## Chunking Strategy
 
-Use a hybrid chunking strategy. Keep short Reddit posts/comments as individual chunks, and split longer Reddit posts or web page sections into smaller chunks based on paragraphs or headings.
+Use a section-based chunking strategy. Each web page will be split by headings first, then by paragraphs if a section is too long. If the cleaned text no longer has clear paragraph breaks, the long section will be split by sentence boundaries instead. This keeps related information together while preventing very long article sections from becoming hard to retrieve accurately.
 
 **Chunk size:**
 
-Reddit: 300–500 tokens
-Web page: 500–800 tokens
+Chunks will usually contain one article section or a small group of closely related paragraphs. If a cleaned section is longer than 2,000 characters, it will be split into smaller chunks of about 2,000 characters.
 
 **Overlap:**
 
-Reddit: 50 tokens
-Web page: 100 tokens
+I will use about 300 characters of overlap when splitting long sections so important context is not lost between adjacent chunks.
 
 **Reasoning:**
-Reddit content is usually short and opinion-based, so keeping posts/comments together preserves the full user experience. The web page is more structured and likely contains longer explanations, so larger chunks help keep related information together. The overlap helps prevent important details from being lost when information spans two adjacent chunks.
+The sources are mostly structured web pages with headings, FAQs, and article sections. Splitting by headings, paragraphs, and sentence boundaries preserves the meaning of each section and makes it easier for retrieval to find focused explanations about eligibility, tax benefits, qualified expenses, and non-qualified withdrawals. The 2,000-character size is large enough to keep a full explanation together, while the 300-character overlap helps preserve context when a long section has to be split.
 ---
 
 ## Retrieval Approach
 
 **Embedding model:**
-I will use all-MiniLM-L6-v2 through the sentence-transformers library. This model is lightweight, fast, and commonly used for simple RAG systems. It is a good fit for this project because the corpus is small and mostly made up of Reddit comments and one web page.
+I will use all-MiniLM-L6-v2 through the sentence-transformers library. This model is lightweight, fast, and commonly used for simple RAG systems. It is a good fit for this project because the corpus is small and made up of structured web pages about one focused topic.
 
 **Top-k:**
 I will retrieve the top 3 chunks for each query. This gives the system enough context to answer the question while reducing the chance of including unrelated or noisy chunks
 **Production tradeoff reflection:**
-If this system were being deployed for real users and cost was not a constraint, I would consider using a more accurate embedding model with stronger semantic understanding and a larger context length. I would weigh tradeoffs such as retrieval accuracy, latency, multilingual support, and how well the model understands HSA-related terminology. A larger or more domain-specific model may improve answer quality, but it could also increase cost and slow down retrieval.
+If this system were being deployed for real users and cost was not a constraint, I would consider using a more accurate embedding model with stronger semantic understanding and a larger context length. I would weigh tradeoffs such as retrieval accuracy, latency, multilingual support, and how well the model understands HSA-related terminology. A larger or more domain-specific model may improve answer quality, but it could also increase cost and slow down retrieval. 
 
 ---
 
 ## Evaluation Plan
 
-<!-- List your 5 test questions with their expected correct answers.
-     Questions should be specific enough that you can judge whether the system's response
-     is right or wrong. "What are good dining halls?" is too vague.
-     "What do students say about wait times at [dining hall name] during lunch?" is testable. -->
-
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | What is an HSA? | An HSA is mainly used to save money for qualified medical expenses, usually alongside a high-deductible health plan.|
-| 2 | What are the benefits of an HSA account| | They can act as both a medical savings account and a long-term investment tool.
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| 1 | What is an HSA, and who is allowed to contribute to one? | An HSA is a tax-advantaged savings account used to pay or reimburse qualified medical expenses. To contribute, a person generally must be covered by an HSA-eligible high-deductible health plan, not be enrolled in Medicare, not be claimed as someone else's dependent, and not have disqualifying other health coverage. |
+| 2 | What are the main tax benefits of an HSA? | HSAs have three major tax advantages: contributions can reduce taxable income, earnings can grow tax-free, and withdrawals are tax-free when used for qualified medical expenses. |
+| 3 | Can HSA money roll over from year to year? | Yes. HSA funds roll over from year to year and stay with the account owner. The money is not lost at the end of the year like some FSA funds can be. |
+| 4 | What can HSA funds be used for without taxes or penalties? | HSA funds can be used tax-free for qualified medical expenses, such as deductibles, copayments, coinsurance, prescriptions, and many other IRS-qualified health expenses. They generally cannot be used tax-free for regular health insurance premiums. |
+| 5 | What happens if someone uses HSA money for non-qualified expenses? | If HSA money is used for non-qualified expenses, the amount is usually taxable. If the person is under age 65, it may also be subject to an additional 20% penalty. After age 65, non-qualified withdrawals are generally taxed as income but are not subject to the 20% penalty. |
 
 ---
 
 ## Anticipated Challenges
 
-1. Noisy or inconsistent Reddit data:
-Reddit posts and comments may include personal opinions, incomplete explanations, slang, or conflicting advice. This could make it harder for the system to separate accurate HSA information from individual experiences.
+1. Dense official language:
+Some government sources may use legal or tax language that is difficult for beginners to understand. This could make it harder for the system to retrieve short, plain-language explanations unless the chunks preserve enough surrounding context.
 
-2. Off-topic or weak retrieval:
-Because the corpus includes informal Reddit content, some retrieved chunks may only loosely match the user’s question. For example, a query about HSA tax benefits could retrieve a personal finance opinion instead of a clear explanation of tax rules.
+2. Similar topics across sources:
+Many sources explain overlapping ideas such as eligibility, tax savings, and qualified expenses. This could make retrieval return several similar chunks instead of the single most useful section for a specific question.
 
 3. Chunk boundary issues:
 Important information may be split across two chunks, especially in the longer web page. The overlap helps reduce this risk, but poor chunking could still cause the system to miss context needed for a complete answer.
@@ -94,7 +87,7 @@ Important information may be split across two chunks, especially in the longer w
 
 ## Architecture
 
-A[Document Ingestion<br>Reddit posts/comments + web page] --> B[Chunking<br>Hybrid strategy: Reddit comments kept together, web page split by headings/paragraphs]
+A[Document Ingestion<br>HSA web pages] --> B[Chunking<br>Section-based web chunks split by headings/paragraphs]
     B --> C[Embedding + Vector Store<br>sentence-transformers all-MiniLM-L6-v2 + FAISS/Chroma]
     C --> D[Retrieval<br>Top-k = 3 most relevant chunks]
     D --> E[Generation<br>LLM answers using retrieved context]
@@ -104,15 +97,15 @@ A[Document Ingestion<br>Reddit posts/comments + web page] --> B[Chunking<br>Hybr
 
 ## AI Tool Plan
 
-For **document ingestion**, I will use ChatGPT to help design the loading process for my Reddit data and web page source. I will give it my project requirements, source types, and Architecture section. I expect it to produce Python code that loads Reddit posts/comments and extracts readable text from the web page. I will verify the output by checking that the documents are loaded correctly, that the text is not empty, and that each document keeps useful metadata such as source type, title, and URL.
+For **document ingestion**, I will use ChatGPT to help design the loading process for my web page sources. I will give it my project requirements, source URLs, and Architecture section. I expect it to produce Python code that extracts readable article text from each web page. I will verify the output by checking that the documents are loaded correctly, that the text is not empty, and that each document keeps useful metadata such as source type, title, section, and URL.
 
-For **chunking**, I will use ChatGPT or GitHub Copilot to implement the `chunk_text()` function. I will give it my Chunking Strategy section, including my chunk sizes of 300–500 tokens for Reddit, 500–800 tokens for the web page, and overlaps of 50 and 100 tokens. I expect it to produce code that keeps short Reddit comments intact while splitting longer text with overlap. I will verify this by printing sample chunks, checking their approximate token lengths, and making sure key information is not cut off awkwardly.
+For **chunking**, I will use ChatGPT or GitHub Copilot to implement the `chunk_text()` function. I will give it my Chunking Strategy section, including the plan to split web pages by headings and paragraphs with light overlap for long sections. I expect it to produce code that keeps related article paragraphs together while splitting long sections cleanly. I will verify this by printing sample chunks and making sure key information is not cut off awkwardly.
 
-For **embedding and vector storage**, I will use ChatGPT to help set up `sentence-transformers` with the `all-MiniLM-L6-v2` embedding model and connect it to a vector store such as FAISS or Chroma. I will give it my Retrieval Approach section and Architecture diagram. I expect it to produce code that embeds each chunk, stores the embeddings, and saves metadata with each chunk. I will verify this by checking that the number of embeddings matches the number of chunks and that similarity search returns relevant results.
+For **embedding and vector storage**, I will use Codex to help set up `sentence-transformers` with the `all-MiniLM-L6-v2` embedding model and connect it to a vector store such as FAISS or Chroma. I will give it my Retrieval Approach section and Architecture diagram. I expect it to produce code that embeds each chunk, stores the embeddings, and saves metadata with each chunk. I will verify this by checking that the number of embeddings matches the number of chunks and that similarity search returns relevant results.
 
-For **retrieval**, I will use ChatGPT or Copilot to implement the retrieval function using top-k = 3. I will give it my Retrieval Approach section and Evaluation Plan. I expect it to produce a function that takes a user question, embeds it, retrieves the top 3 most relevant chunks, and returns those chunks with source information. I will verify this by running my five test questions and checking whether the retrieved chunks contain the expected answer.
+For **retrieval**, I will use Codex or Copilot to implement the retrieval function using top-k = 3. I will give it my Retrieval Approach section and Evaluation Plan. I expect it to produce a function that takes a user question, embeds it, retrieves the top 3 most relevant chunks, and returns those chunks with source information. I will verify this by running my five test questions and checking whether the retrieved chunks contain the expected answer.
 
-For **generation and evaluation**, I will use ChatGPT to help write the prompt that instructs the language model to answer only using retrieved context. I will give it my Evaluation Plan and Anticipated Challenges section. I expect it to produce a prompt template that encourages accurate, grounded answers and source attribution. I will verify the output by comparing the generated answers to my expected answers and checking that the model does not invent information when the retrieved chunks are incomplete.
+For **generation and evaluation**, I will use Codex to help write the prompt that instructs the language model to answer only using retrieved context. I will give it my Evaluation Plan and Anticipated Challenges section. I expect it to produce a prompt template that encourages accurate, grounded answers and source attribution. I will verify the output by comparing the generated answers to my expected answers and checking that the model does not invent information when the retrieved chunks are incomplete.
 
 
 **Milestone 3 — Ingestion and chunking:**
