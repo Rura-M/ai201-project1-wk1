@@ -9,7 +9,7 @@
 
 ## Domain
 
-<!-- What domain did you choose? Why is this knowledge valuable and hard to find through official channels? -->
+This domain is a beginner’s guide to Health Savings Accounts (HSAs) that explains how to save, spend, and grow your money tax-free. This information is hard to find because official documents are usually full of confusing legal jargon that doesn't answer basic, real-world questions. By using sources like Reddit and personal blogs, this guide provides the simple, "human" explanations and reassurance that official bank websites often ignore.
 
 ---
 
