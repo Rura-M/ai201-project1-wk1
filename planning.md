@@ -18,18 +18,18 @@ This domain is a beginner’s guide to Health Savings Accounts (HSAs) that expla
 <!-- List your specific sources: URLs, website names, article titles, or file descriptions.
      Aim for at least 10 sources that together cover different subtopics or perspectives within your domain. -->
 
-| # | Source | Description | URL or location |
-|---|--------|-------------|-----------------|
-| 1 | Investopedia| This describes HSA terms and gives a basic introduction| https://www.investopedia.com/terms/h/hsa.asp |
-| 2 | IRS| This explains official HSA rules, eligibility, contribution limits, and tax treatment | https://www.irs.gov/publications/p969 |
-| 3 | HealthCare.gov | This explains HSA-eligible health plans and how HSAs work with HDHP coverage | https://www.healthcare.gov/high-deductible-health-plan/hdhp-hsa-information/|
-| 4 | Fidelity| This explains how to spend money from an HSA on qualified medical expenses | https://www.fidelity.com/learning-center/personal-finance/spending-from-hsa|
-| 5 | Fidelity| This explains what to look for when choosing an HSA account provider| https://www.fidelity.com/learning-center/personal-finance/hsa-what-to-look-for|
-| 6 | Fidelity| This explains how to open an HSA and who may be eligible| https://www.fidelity.com/learning-center/personal-finance/how-to-open-an-HSA|
-| 7 | Optum Bank | This gives a beginner-friendly overview of HSA benefits, contributions, and tax savings | https://www.optumbank.com/resources/library/money-management-hsa.html |
-| 8 | Optum Bank| This explains how to manage an HSA, make deposits, use funds, and handle transfers | https://www.optumbank.com/health-savings-accounts/resources/managing-hsa.html|
-| 9 | HSA Bank | This lists common IRS-qualified medical expenses for HSAs, FSAs, and HRAs | https://www.hsabank.com/HSABank/Learning-Center/IRS-qualified-medical-expenses|
-| 10 | HSA Bank| This answers common member questions about HSAs, FSAs, HRAs, reimbursements, and rollovers | https://www.hsabank.com/Members/Members-FAQs.html| 
+| # | Source | Type | Description | URL or location |
+|---|--------|------|-------------|-----------------|
+| 1 | Investopedia| Webpage | This describes HSA terms and gives a basic introduction| https://www.investopedia.com/terms/h/hsa.asp |
+| 2 | IRS| Webpage | This explains official HSA rules, eligibility, contribution limits, and tax treatment | https://www.irs.gov/publications/p969 |
+| 3 | HealthCare.gov | Webpage | This explains HSA-eligible health plans and how HSAs work with HDHP coverage | https://www.healthcare.gov/high-deductible-health-plan/hdhp-hsa-information/|
+| 4 | Fidelity| Webpage | This explains how to spend money from an HSA on qualified medical expenses | https://www.fidelity.com/learning-center/personal-finance/spending-from-hsa|
+| 5 | Fidelity| Webpage | This explains what to look for when choosing an HSA account provider| https://www.fidelity.com/learning-center/personal-finance/hsa-what-to-look-for|
+| 6 | Fidelity| Webpage | This explains how to open an HSA and who may be eligible| https://www.fidelity.com/learning-center/personal-finance/how-to-open-an-HSA|
+| 7 | Optum Bank | Webpage | This gives a beginner-friendly overview of HSA benefits, contributions, and tax savings | https://www.optumbank.com/resources/library/money-management-hsa.html |
+| 8 | Optum Bank| Webpage | This explains how to manage an HSA, make deposits, use funds, and handle transfers | https://www.optumbank.com/health-savings-accounts/resources/managing-hsa.html|
+| 9 | HSA Bank | Webpage | This lists common IRS-qualified medical expenses for HSAs, FSAs, and HRAs | https://www.hsabank.com/HSABank/Learning-Center/IRS-qualified-medical-expenses|
+| 10 | HSA Bank| Webpage | This answers common member questions about HSAs, FSAs, HRAs, reimbursements, and rollovers | https://www.hsabank.com/Members/Members-FAQs.html| 
 
 ---
 ## Chunking Strategy
@@ -54,7 +54,8 @@ The sources are mostly structured web pages with headings, FAQs, and article sec
 I will use all-MiniLM-L6-v2 through the sentence-transformers library. This model is lightweight, fast, and commonly used for simple RAG systems. It is a good fit for this project because the corpus is small and made up of structured web pages about one focused topic.
 
 **Top-k:**
-I will retrieve the top 4 chunks for each query. This gives the system enough context to answer the question while reducing the chance of including unrelated or noisy chunks. I chose 4 instead of 3 after adding ChromaDB retrieval because the HSA sources often split related details across nearby sections, and 4 chunks gives slightly better coverage without adding too much off-topic context.
+I will retrieve the top 4 chunks for each query. This gives the system enough context to answer the question while reducing the chance of including unrelated or noisy chunks. Using a chunk size of 4 provides good coverage of related HSA details without adding too much off-topic context.
+
 **Production tradeoff reflection:**
 If this system were being deployed for real users and cost was not a constraint, I would consider using a more accurate embedding model with stronger semantic understanding and a larger context length. I would weigh tradeoffs such as retrieval accuracy, latency, multilingual support, and how well the model understands HSA-related terminology. A larger or more domain-specific model may improve answer quality, but it could also increase cost and slow down retrieval. 
 
@@ -93,17 +94,16 @@ A[Document Ingestion<br>HSA web pages] --> B[Chunking<br>documents/hsa_chunks.js
     D --> E[Generation<br>LLM answers using retrieved context]
 ---
 
-## AI Tool Plan
 
 ## AI Tool Plan
 
-For **document ingestion**, I will use ChatGPT to help design the loading process for my web page sources. I will give it my project requirements, source URLs, and Architecture section. I expect it to produce Python code that extracts readable article text from each web page. I will verify the output by checking that the documents are loaded correctly, that the text is not empty, and that each document keeps useful metadata such as source type, title, section, and URL.
+For **document ingestion**, I will use Chatgpt to help design the loading process for my web page sources. I will give it my project requirements, source URLs, and Architecture section. I expect it to produce Python code that extracts readable article text from each web page. I will verify the output by checking that the documents are loaded correctly, that the text is not empty, and that each document keeps useful metadata such as source type, title, section, and URL.
 
-For **chunking**, I will use ChatGPT or GitHub Copilot to implement the `chunk_text()` function. I will give it my Chunking Strategy section, including the plan to split web pages by headings and paragraphs with light overlap for long sections. I expect it to produce code that keeps related article paragraphs together while splitting long sections cleanly. I will verify this by printing sample chunks and making sure key information is not cut off awkwardly.
+For **chunking**, I will use Codex to implement the `chunk_text()` function. I will give it my Chunking Strategy section, including the plan to split web pages by headings and paragraphs with light overlap for long sections. I expect it to produce code that keeps related article paragraphs together while splitting long sections cleanly. I will verify this by printing sample chunks and making sure key information is not cut off awkwardly.
 
 For **embedding and vector storage**, I will use Codex to help set up `sentence-transformers` with the `all-MiniLM-L6-v2` embedding model and connect it to a vector store such as FAISS or Chroma. I will give it my Retrieval Approach section and Architecture diagram. I expect it to produce code that embeds each chunk, stores the embeddings, and saves metadata with each chunk. I will verify this by checking that the number of embeddings matches the number of chunks and that similarity search returns relevant results.
 
-For **retrieval**, I will use Codex or Copilot to implement the retrieval function using top-k = 3. I will give it my Retrieval Approach section and Evaluation Plan. I expect it to produce a function that takes a user question, embeds it, retrieves the top 3 most relevant chunks, and returns those chunks with source information. I will verify this by running my five test questions and checking whether the retrieved chunks contain the expected answer.
+For **retrieval**, I will use Codex to implement the retrieval function using top-k = 3. I will give it my Retrieval Approach section and Evaluation Plan. I expect it to produce a function that takes a user question, embeds it, retrieves the top 3 most relevant chunks, and returns those chunks with source information. I will verify this by running my five test questions and checking whether the retrieved chunks contain the expected answer.
 
 For **generation and evaluation**, I will use Codex to help write the prompt that instructs the language model to answer only using retrieved context. I will give it my Evaluation Plan and Anticipated Challenges section. I expect it to produce a prompt template that encourages accurate, grounded answers and source attribution. I will verify the output by comparing the generated answers to my expected answers and checking that the model does not invent information when the retrieved chunks are incomplete.
 
