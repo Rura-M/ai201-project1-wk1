@@ -20,47 +20,45 @@ This domain is a beginner’s guide to Health Savings Accounts (HSAs) that expla
 
 | # | Source | Description | URL or location |
 |---|--------|-------------|-----------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
-| 7 | | | |
-| 8 | | | |
-| 9 | | | |
-| 10 | | | |
+| 1 | Reddit| This informs the user of what HSA accounts are | https://www.reddit.com/r/personalfinance/comments/1tn70nh/hsa_explained_for_dummies/ |
+| 2 | Investopedia| This describes HSA terms and gives a basic introduction|  https://www.investopedia.com/terms/h/hsa.asp |
+| 3 | Reddit | This further gives more details on how HSA  works | http://reddit.com/r/explainlikeimfive/comments/1opcu1s/eli5how_do_hsas_work_they_seem_too_good_to_be_true/|
+| 4 | Reddit| This explains how HSA works | https://www.reddit.com/r/FinancialPlanning/comments/17mv9nz/how_do_hsa_and_fsa_work/|
+| 5 | Reddit| This exaplains how to use funds in the HSA account| https://www.reddit.com/r/personalfinance/comments/1t6q205/should_you_use_your_hsa_money/|
+| 6 | Reddit| This exaplains whether the user can spend HSA funds on non-medial issues| https://www.reddit.com/r/fidelityinvestments/comments/1myepym/should_i_actually_be_using_hsa_for_health/|
+| 7 | Reddit | Exaplains what happens to your HDHP when you no longer need it | https://www.reddit.com/r/personalfinance/comments/1nq9h30/what_happens_with_your_invested_hsa_funds_when/ |
+| 8 | Reddit| Discusses what happens when you ises HSA for non-medical issues | https://www.reddit.com/r/personalfinance/comments/1mk0z2l/accidentally_used_hsa_on_non_medical_items/|
+| 9 | Reddit | Exaplains what happens when users exceed their contributions to the HSA aaccounts | https://www.reddit.com/r/tax/comments/1q1mh67/hsa_excess_contribution_what_do/|
+| 10 | Reddit| Discuss HSA investment strategy | https://www.reddit.com/r/personalfinance/comments/1q7vs35/hsa_investment_strategy/| 
 
 ---
-
 ## Chunking Strategy
 
-<!-- How will you split documents into chunks?
-     State your chunk size (in tokens or characters), overlap size, and explain why those
-     numbers fit the structure of your documents.
-     A review-heavy corpus warrants different chunking than a long FAQ. -->
+Use a hybrid chunking strategy. Keep short Reddit posts/comments as individual chunks, and split longer Reddit posts or web page sections into smaller chunks based on paragraphs or headings.
 
 **Chunk size:**
 
+Reddit: 300–500 tokens
+Web page: 500–800 tokens
+
 **Overlap:**
 
-**Reasoning:**
+Reddit: 50 tokens
+Web page: 100 tokens
 
+**Reasoning:**
+Reddit content is usually short and opinion-based, so keeping posts/comments together preserves the full user experience. The web page is more structured and likely contains longer explanations, so larger chunks help keep related information together. The overlap helps prevent important details from being lost when information spans two adjacent chunks.
 ---
 
 ## Retrieval Approach
 
-<!-- Which embedding model are you using (e.g., all-MiniLM-L6-v2 via sentence-transformers)?
-     How many chunks will you retrieve per query (top-k)?
-     If you were deploying this for real users and cost wasn't a constraint, what tradeoffs
-     would you weigh in choosing a different embedding model — context length, multilingual
-     support, accuracy on domain-specific text, latency? -->
-
 **Embedding model:**
+I will use all-MiniLM-L6-v2 through the sentence-transformers library. This model is lightweight, fast, and commonly used for simple RAG systems. It is a good fit for this project because the corpus is small and mostly made up of Reddit comments and one web page.
 
 **Top-k:**
-
+I will retrieve the top 3 chunks for each query. This gives the system enough context to answer the question while reducing the chance of including unrelated or noisy chunks
 **Production tradeoff reflection:**
+If this system were being deployed for real users and cost was not a constraint, I would consider using a more accurate embedding model with stronger semantic understanding and a larger context length. I would weigh tradeoffs such as retrieval accuracy, latency, multilingual support, and how well the model understands HSA-related terminology. A larger or more domain-specific model may improve answer quality, but it could also increase cost and slow down retrieval.
 
 ---
 
@@ -73,8 +71,8 @@ This domain is a beginner’s guide to Health Savings Accounts (HSAs) that expla
 
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | | |
-| 2 | | |
+| 1 | What is an HSA? | An HSA is mainly used to save money for qualified medical expenses, usually alongside a high-deductible health plan.|
+| 2 | What are the benefits of an HSA account| | They can act as both a medical savings account and a long-term investment tool.
 | 3 | | |
 | 4 | | |
 | 5 | | |
@@ -83,37 +81,39 @@ This domain is a beginner’s guide to Health Savings Accounts (HSAs) that expla
 
 ## Anticipated Challenges
 
-<!-- What could go wrong? Name at least two specific risks with reasoning.
-     Consider: noisy or inconsistent documents, missing source attribution, off-topic
-     retrieval, chunks that split key information across boundaries. -->
+1. Noisy or inconsistent Reddit data:
+Reddit posts and comments may include personal opinions, incomplete explanations, slang, or conflicting advice. This could make it harder for the system to separate accurate HSA information from individual experiences.
 
-1.
+2. Off-topic or weak retrieval:
+Because the corpus includes informal Reddit content, some retrieved chunks may only loosely match the user’s question. For example, a query about HSA tax benefits could retrieve a personal finance opinion instead of a clear explanation of tax rules.
 
-2.
+3. Chunk boundary issues:
+Important information may be split across two chunks, especially in the longer web page. The overlap helps reduce this risk, but poor chunking could still cause the system to miss context needed for a complete answer.
 
 ---
 
 ## Architecture
 
-<!-- Draw a diagram of your pipeline showing the five stages:
-     Document Ingestion → Chunking → Embedding + Vector Store → Retrieval → Generation
-     Label each stage with the tool or library you're using.
-     You can use ASCII art, a Mermaid diagram, or embed a sketch as an image.
-     You'll use this diagram as context when prompting AI tools to implement each stage. -->
-
+A[Document Ingestion<br>Reddit posts/comments + web page] --> B[Chunking<br>Hybrid strategy: Reddit comments kept together, web page split by headings/paragraphs]
+    B --> C[Embedding + Vector Store<br>sentence-transformers all-MiniLM-L6-v2 + FAISS/Chroma]
+    C --> D[Retrieval<br>Top-k = 3 most relevant chunks]
+    D --> E[Generation<br>LLM answers using retrieved context]
 ---
 
 ## AI Tool Plan
 
-<!-- For each part of the pipeline below, describe:
-     - Which AI tool you plan to use (Claude, Copilot, ChatGPT, etc.)
-     - What you'll give it as input (which sections of this planning.md, which requirements)
-     - What you expect it to produce
-     - How you'll verify the output matches your spec
+## AI Tool Plan
 
-     "I'll use AI to help me code" is not a plan.
-     "I'll give Claude my Chunking Strategy section and ask it to implement chunk_text()
-     with my specified chunk size and overlap" is a plan. -->
+For **document ingestion**, I will use ChatGPT to help design the loading process for my Reddit data and web page source. I will give it my project requirements, source types, and Architecture section. I expect it to produce Python code that loads Reddit posts/comments and extracts readable text from the web page. I will verify the output by checking that the documents are loaded correctly, that the text is not empty, and that each document keeps useful metadata such as source type, title, and URL.
+
+For **chunking**, I will use ChatGPT or GitHub Copilot to implement the `chunk_text()` function. I will give it my Chunking Strategy section, including my chunk sizes of 300–500 tokens for Reddit, 500–800 tokens for the web page, and overlaps of 50 and 100 tokens. I expect it to produce code that keeps short Reddit comments intact while splitting longer text with overlap. I will verify this by printing sample chunks, checking their approximate token lengths, and making sure key information is not cut off awkwardly.
+
+For **embedding and vector storage**, I will use ChatGPT to help set up `sentence-transformers` with the `all-MiniLM-L6-v2` embedding model and connect it to a vector store such as FAISS or Chroma. I will give it my Retrieval Approach section and Architecture diagram. I expect it to produce code that embeds each chunk, stores the embeddings, and saves metadata with each chunk. I will verify this by checking that the number of embeddings matches the number of chunks and that similarity search returns relevant results.
+
+For **retrieval**, I will use ChatGPT or Copilot to implement the retrieval function using top-k = 3. I will give it my Retrieval Approach section and Evaluation Plan. I expect it to produce a function that takes a user question, embeds it, retrieves the top 3 most relevant chunks, and returns those chunks with source information. I will verify this by running my five test questions and checking whether the retrieved chunks contain the expected answer.
+
+For **generation and evaluation**, I will use ChatGPT to help write the prompt that instructs the language model to answer only using retrieved context. I will give it my Evaluation Plan and Anticipated Challenges section. I expect it to produce a prompt template that encourages accurate, grounded answers and source attribution. I will verify the output by comparing the generated answers to my expected answers and checking that the model does not invent information when the retrieved chunks are incomplete.
+
 
 **Milestone 3 — Ingestion and chunking:**
 
