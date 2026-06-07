@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from data_retrieval import CHUNKS_OUTPUT_PATH, OUTPUT_PATH, chunk_documents, write_jsonl
+from data_retrieval import CHUNKS_OUTPUT_PATH, OUTPUT_PATH, chunk_documents, dedupe_sentences, write_jsonl
 
 
 HSA_TERMS = [
@@ -64,7 +64,17 @@ def is_hsa_related(record: dict[str, Any]) -> bool:
 
 
 def filter_hsa_documents(documents: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    return [document for document in documents if is_hsa_related(document)]
+    hsa_documents = []
+
+    for document in documents:
+        if not is_hsa_related(document):
+            continue
+
+        cleaned_document = dict(document)
+        cleaned_document["text"] = dedupe_sentences(document["text"])
+        hsa_documents.append(cleaned_document)
+
+    return hsa_documents
 
 
 def print_chunk_summary(chunks: list[dict[str, Any]]) -> None:

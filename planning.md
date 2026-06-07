@@ -54,7 +54,7 @@ The sources are mostly structured web pages with headings, FAQs, and article sec
 I will use all-MiniLM-L6-v2 through the sentence-transformers library. This model is lightweight, fast, and commonly used for simple RAG systems. It is a good fit for this project because the corpus is small and made up of structured web pages about one focused topic.
 
 **Top-k:**
-I will retrieve the top 3 chunks for each query. This gives the system enough context to answer the question while reducing the chance of including unrelated or noisy chunks
+I will retrieve the top 4 chunks for each query. This gives the system enough context to answer the question while reducing the chance of including unrelated or noisy chunks. I chose 4 instead of 3 after adding ChromaDB retrieval because the HSA sources often split related details across nearby sections, and 4 chunks gives slightly better coverage without adding too much off-topic context.
 **Production tradeoff reflection:**
 If this system were being deployed for real users and cost was not a constraint, I would consider using a more accurate embedding model with stronger semantic understanding and a larger context length. I would weigh tradeoffs such as retrieval accuracy, latency, multilingual support, and how well the model understands HSA-related terminology. A larger or more domain-specific model may improve answer quality, but it could also increase cost and slow down retrieval. 
 
@@ -67,8 +67,8 @@ If this system were being deployed for real users and cost was not a constraint,
 | 1 | What is an HSA, and who is allowed to contribute to one? | An HSA is a tax-advantaged savings account used to pay or reimburse qualified medical expenses. To contribute, a person generally must be covered by an HSA-eligible high-deductible health plan, not be enrolled in Medicare, not be claimed as someone else's dependent, and not have disqualifying other health coverage. |
 | 2 | What are the main tax benefits of an HSA? | HSAs have three major tax advantages: contributions can reduce taxable income, earnings can grow tax-free, and withdrawals are tax-free when used for qualified medical expenses. |
 | 3 | Can HSA money roll over from year to year? | Yes. HSA funds roll over from year to year and stay with the account owner. The money is not lost at the end of the year like some FSA funds can be. |
-| 4 | What can HSA funds be used for without taxes or penalties? | HSA funds can be used tax-free for qualified medical expenses, such as deductibles, copayments, coinsurance, prescriptions, and many other IRS-qualified health expenses. They generally cannot be used tax-free for regular health insurance premiums. |
-| 5 | What happens if someone uses HSA money for non-qualified expenses? | If HSA money is used for non-qualified expenses, the amount is usually taxable. If the person is under age 65, it may also be subject to an additional 20% penalty. After age 65, non-qualified withdrawals are generally taxed as income but are not subject to the 20% penalty. |
+| 4 | What qualified medical expenses can HSA funds be used for tax-free? | HSA funds can be used tax-free for qualified medical expenses, such as deductibles, copayments, coinsurance, prescriptions, dental care, vision care, and many other IRS-qualified health expenses. They generally cannot be used tax-free for regular health insurance premiums. |
+| 5 | Are HSA withdrawals for non-qualified medical expenses taxable or penalized? | Non-qualified HSA withdrawals are generally taxable. If the person is under age 65, they may also owe an additional 20% penalty. After age 65, non-qualified withdrawals are generally taxed as income but are not subject to the 20% penalty. |
 
 ---
 
@@ -87,8 +87,8 @@ Important information may be split across two chunks, especially in the longer w
 
 ## Architecture
 
-A[Document Ingestion<br>HSA web pages] --> B[Chunking<br>Section-based web chunks split by headings/paragraphs]
-    B --> C[Embedding + Vector Store<br>sentence-transformers all-MiniLM-L6-v2 + FAISS/Chroma]
+A[Document Ingestion<br>HSA web pages] --> B[Chunking<br>documents/hsa_chunks.jsonl section-based chunks]
+    B --> C[Embedding + Vector Store<br>sentence-transformers all-MiniLM-L6-v2 + ChromaDB]
     C --> D[Retrieval<br>Top-k = 3 most relevant chunks]
     D --> E[Generation<br>LLM answers using retrieved context]
 ---

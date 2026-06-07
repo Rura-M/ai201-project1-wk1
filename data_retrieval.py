@@ -62,6 +62,7 @@ BOILERPLATE_TEXT_FRAGMENTS = [
     "all rights reserved",
     "cookie policy",
     "do not sell",
+    "get personalized, ai-powered answers",
     "getting answers to your tax questions",
     "getting tax forms",
     "external link",
@@ -438,11 +439,11 @@ def chunk_text(
 def chunk_documents(documents: list[dict[str, Any]]) -> list[dict[str, Any]]:
     chunks = []
 
-    for document in documents:
+    for document_number, document in enumerate(documents, start=1):
         document_chunks = chunk_text(document["text"])
 
         for index, chunk in enumerate(document_chunks, start=1):
-            chunk_id = f"{document['id']}-chunk-{index}"
+            chunk_id = f"{document['id']}-doc-{document_number}-chunk-{index}"
             chunks.append(
                 {
                     "id": chunk_id,
