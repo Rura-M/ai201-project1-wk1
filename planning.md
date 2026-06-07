@@ -89,7 +89,7 @@ Important information may be split across two chunks, especially in the longer w
 
 A[Document Ingestion<br>HSA web pages] --> B[Chunking<br>documents/hsa_chunks.jsonl section-based chunks]
     B --> C[Embedding + Vector Store<br>sentence-transformers all-MiniLM-L6-v2 + ChromaDB]
-    C --> D[Retrieval<br>Top-k = 3 most relevant chunks]
+    C --> D[Retrieval<br>Top-k = 4 most relevant chunks]
     D --> E[Generation<br>LLM answers using retrieved context]
 ---
 
